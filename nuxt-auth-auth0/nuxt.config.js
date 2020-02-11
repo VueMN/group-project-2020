@@ -35,7 +35,8 @@ module.exports = {
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module',
     // Doc: https://github.com/nuxt-community/nuxt-tailwindcss
-    '@nuxtjs/tailwindcss'
+    '@nuxtjs/tailwindcss',
+    '@nuxtjs/dotenv'
   ],
   /*
    ** Nuxt.js modules
@@ -56,7 +57,24 @@ module.exports = {
   /*
    ** Auth module configuration
    */
-  auth: {},
+  auth: {
+    strategies: {
+      auth0: {
+        domain: process.env.domain,
+        client_id: process.env.clientId,
+        audience: process.env.audience,
+        redirect_uri: 'http://localhost:3000'
+      }
+    }
+  },
+  env: {
+    domain: process.env.AUTH0_DOMAIN,
+    clientId: process.env.AUTH0_CLIENT_ID,
+    audience: process.env.AUTH0_AUDIENCE
+  },
+  router: {
+    middleware: ['auth']
+  },
   /*
    ** Build configuration
    */
@@ -66,4 +84,4 @@ module.exports = {
      */
     extend(config, ctx) {}
   }
-}
+};

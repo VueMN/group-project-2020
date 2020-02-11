@@ -8,38 +8,45 @@
       <h2 class="subtitle">
         February 11, 2020 Vue.mn meetup mob programming exercise.
       </h2>
-      <div class="links">
-        <a href="https://nuxtjs.org/" target="_blank" class="button--green">
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
+      <div v-if="$auth.loggedIn">
+        {{ $auth.user.email }} is logged in!
+        <br />
+        <pre>
+          {{ JSON.stringify(this.$auth.user) }}
+        </pre>
+        <br />
+        <button class="mt-4 button--green" @click="onClickLogoutButton">
+          Logout
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
+import Logo from '~/components/Logo.vue';
 
 export default {
   components: {
     Logo
+  },
+  methods: {
+    onClickLogoutButton() {
+      this.$auth.logout();
+      window.location.replace(
+        'https://cebartling.auth0.com/v2/logout?returnTo=http%3A%2F%2Flocalhost%3A3000'
+      );
+    }
   }
-}
+};
 </script>
 
 <style>
 /* Sample `apply` at-rules with Tailwind CSS
-.container {
-  @apply min-h-screen flex justify-center items-center text-center mx-auto;
-}
-*/
+  .container {
+    @apply min-h-screen flex justify-center items-center text-center mx-auto;
+  }
+  */
 .container {
   margin: 0 auto;
   min-height: 100vh;
